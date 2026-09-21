@@ -457,7 +457,7 @@ def cmd_list(args) -> None:
 def cmd_download(args) -> None:
     for tool in ("ffmpeg", "ffprobe"):
         if not shutil.which(tool):
-            sys.exit(f"{tool} est introuvable. Installe-le avec : brew install ffmpeg")
+            sys.exit(f"{tool} est introuvable. Installez-le avec : brew install ffmpeg")
     include, exclude = filters(args)
     shows = [s for s in load_catalog(args.refresh) if selected(s, include, exclude)]
     if args.ids:

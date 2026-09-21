@@ -12,11 +12,11 @@ Outil auto-hébergé qui conserve une copie personnelle des livres audio diffus�
 - **Droits d'auteur.** Les livres audio restent la propriété de leurs auteurs, éditeurs, interprètes et de Radio-Canada. Ce projet ne transfère aucun droit sur les œuvres.
 - **Interdit de redistribuer.** Il est interdit de partager, revendre, téléverser, diffuser publiquement ou mettre en ligne les fichiers obtenus, y compris sur des sites de torrent, des serveurs multimédias partagés ou des services infonuagiques publics.
 - **Aucun contournement.** L'outil récupère uniquement les fichiers publics que le lecteur officiel reçoit déjà. Il ne contourne aucun verrou numérique (DRM), aucune authentification et aucun abonnement. S'il fallait un jour contourner une protection, ce projet ne le ferait pas.
-- **Ta responsabilité.** Chaque utilisateur doit vérifier que son usage respecte les lois de son pays (au Canada, la *Loi sur le droit d'auteur*), ainsi que les conditions d'utilisation de Radio-Canada et des services utilisés. En cas de doute, n'utilise pas cet outil.
+- **Votre responsabilité.** Chaque utilisateur doit vérifier que son usage respecte les lois de son pays (au Canada, la *Loi sur le droit d'auteur*), ainsi que les conditions d'utilisation de Radio-Canada et des services utilisés. En cas de doute, n'utilisez pas cet outil.
 - **Aucune garantie, aucune responsabilité.** Le logiciel est fourni « tel quel », sans garantie d'aucune sorte (voir [LICENSE](LICENSE)). Les auteurs et contributeurs ne sont pas responsables de l'usage qui en est fait, ni des dommages, pertes de données ou conséquences juridiques qui pourraient en découler.
-- **Retrait.** Si tu es titulaire de droits et que ce projet te pose problème, ouvre une *issue* : elle sera traitée rapidement.
+- **Retrait.** Si vous êtes titulaire de droits et que ce projet vous pose problème, ouvrez une *issue* : elle sera traitée rapidement.
 
-Pour soutenir les créateurs, écoute aussi les œuvres sur [OHdio](https://ici.radio-canada.ca/ohdio) et achète les livres qui te plaisent.
+Pour soutenir les créateurs, écoutez aussi les œuvres sur [OHdio](https://ici.radio-canada.ca/ohdio) et achetez les livres qui vous plaisent.
 
 *English summary: this is a personal archiving tool for audiobooks that Radio-Canada already streams for free. It is not affiliated with Radio-Canada/CBC, OHdio or yodio.ca, does not bypass any DRM, and must not be used to redistribute content. You are solely responsible for complying with copyright law and the terms of service that apply to you. Provided "as is", without warranty or liability.*
 
@@ -48,9 +48,9 @@ L'interface est ensuite accessible sur `http://<ip-de-la-machine>:8765`. Elle pe
 - forcer ou exclure un livre précis, peu importe sa catégorie ;
 - lancer ou arrêter un archivage et suivre la progression en direct.
 
-**L'interface n'a pas d'authentification.** Garde-la sur ton réseau local et ne l'expose pas sur Internet.
+**L'interface n'a pas d'authentification.** Gardez-la sur votre réseau local et ne l'exposez pas sur Internet.
 
-Dans Audiobookshelf, crée une bibliothèque qui pointe vers `<OHDIO_ARCHIVE_PATH>/Livres audio`. Chaque dossier contient un `metadata.json` lu par Audiobookshelf, qui fournit les vrais auteurs, le genre, l'éditeur et l'année.
+Dans Audiobookshelf, créez une bibliothèque qui pointe vers `<OHDIO_ARCHIVE_PATH>/Livres audio`. Chaque dossier contient un `metadata.json` lu par Audiobookshelf, qui fournit les vrais auteurs, le genre, l'éditeur et l'année.
 
 ## Ligne de commande
 
@@ -69,7 +69,7 @@ python3 ohdio.py serve                       # interface web + archivage automat
 
 Dans Docker, les mêmes commandes passent par `docker compose run --rm ohdio <commande>`.
 
-Les réglages sont dans `config.toml` (ou `config/config.toml` avec Docker). L'alias `jeunesse` couvre toutes les catégories d'âge.
+Les réglages se trouvent dans `config.toml` (ou `config/config.toml` avec Docker). L'alias `jeunesse` couvre toutes les catégories d'âge.
 
 ## Structure de l'archive
 

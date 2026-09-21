@@ -11,6 +11,6 @@ services:
     environment:
       TZ: ${TZ:-America/Toronto}
     volumes:
-      # Dossier de l'archive, idéalement lu par ton serveur d'audiobooks (ex. Audiobookshelf).
+      # Dossier de l'archive, idéalement lu par votre serveur d'audiobooks (ex. Audiobookshelf).
       - ${OHDIO_ARCHIVE_PATH:-./archive}:/archive
       - ./config:/config
