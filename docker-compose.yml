@@ -1,10 +1,10 @@
 services:
   ohdio:
-    build: .
-    image: ohdio-archiver:latest
+    image: ghcr.io/balgio-ca/ohdio-archiver:latest
+    # Pour construire l'image soi-même à partir du code : remplacer la ligne ci-dessus par « build: . »
     container_name: ohdio-archiver
     restart: unless-stopped
-    # Utilisateur propriétaire du dossier d'archive (commande `id` sur la machine hôte).
+    # Utilisateur propriétaire des dossiers ci-dessous (commande `id` sur la machine hôte).
     user: "${PUID:-1000}:${PGID:-1000}"
     ports:
       - "${OHDIO_PORT:-8765}:8765"   # interface web
@@ -13,4 +13,5 @@ services:
     volumes:
       # Dossier de l'archive, idéalement lu par votre serveur d'audiobooks (ex. Audiobookshelf).
       - ${OHDIO_ARCHIVE_PATH:-./archive}:/archive
-      - ./config:/config
+      # Réglages (catégories, fréquence). Créés au premier démarrage.
+      - ${OHDIO_CONFIG_PATH:-./config}:/config
