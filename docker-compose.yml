@@ -1,0 +1,16 @@
+services:
+  ohdio:
+    build: .
+    image: ohdio-archiver:latest
+    container_name: ohdio-archiver
+    restart: unless-stopped
+    # Utilisateur propriétaire du dossier d'archive (commande `id` sur la machine hôte).
+    user: "${PUID:-1000}:${PGID:-1000}"
+    ports:
+      - "${OHDIO_PORT:-8765}:8765"   # interface web
+    environment:
+      TZ: ${TZ:-America/Toronto}
+    volumes:
+      # Dossier de l'archive, idéalement lu par ton serveur d'audiobooks (ex. Audiobookshelf).
+      - ${OHDIO_ARCHIVE_PATH:-./archive}:/archive
+      - ./config:/config

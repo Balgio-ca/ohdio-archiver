@@ -1,0 +1,7 @@
+Archive/
+archive/
+config/
+__pycache__/
+*.part
+.env
+.DS_Store

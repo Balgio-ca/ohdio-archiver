@@ -1,0 +1,23 @@
+# Configuration de l'archiveur OHdio.
+# Les noms de catégories ne tiennent pas compte des accents ni des majuscules.
+# Catégories actuelles des livres audio :
+#   Roman, Essai, Biographie, Poésie, 0-5 ans, 6-8 ans, 9-12 ans, 13-17 ans
+# L'alias « jeunesse » regroupe toutes les catégories d'âge (0-5, 6-8, 9-12, 13-17 ans).
+
+# Dossier racine de l'archive.
+archive_dir = "Archive"
+
+# Pause entre deux requêtes, en secondes (pour rester poli avec les serveurs).
+delay = 0.5
+
+# Fréquence de vérification des nouveautés, en heures.
+every_hours = 24
+
+[audiobooks]
+# Liste vide = tout inclure. Sinon, seules ces catégories sont téléchargées.
+include = []
+# Catégories à ignorer (appliqué après include).
+exclude = ["jeunesse"]
+# Choix par livre (globalId), prioritaires sur les catégories. Gérés depuis l'interface web.
+force_ids = []
+skip_ids = []
