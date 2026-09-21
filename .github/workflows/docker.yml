@@ -23,14 +23,14 @@ jobs:
         with:
           context: .
           load: true
-          tags: ohdio-archiver:test
+          tags: yottio-archiver:test
 
       - name: Test rapide
         run: |
           mkdir -p archive config && sudo chown 1000:1000 archive config
-          docker run --rm --user 1000:1000 -v "$PWD/archive:/archive" -v "$PWD/config:/config" ohdio-archiver:test catalog
+          docker run --rm --user 1000:1000 -v "$PWD/archive:/archive" -v "$PWD/config:/config" yottio-archiver:test catalog
           test -f config/config.toml
-          docker run --rm --entrypoint sh ohdio-archiver:test -c "ffmpeg -version | head -1 && python3 -c 'import web'"
+          docker run --rm --entrypoint sh yottio-archiver:test -c "ffmpeg -version | head -1 && python3 -c 'import web'"
 
       - uses: docker/login-action@v3
         with:
@@ -44,8 +44,8 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ghcr.io/balgio-ca/ohdio-archiver:latest
+          tags: ghcr.io/balgio-ca/yottio-archiver:latest
           labels: |
-            org.opencontainers.image.source=https://github.com/Balgio-ca/ohdio-archiver
-            org.opencontainers.image.description=Archive personnelle des livres audio OHdio
+            org.opencontainers.image.source=https://github.com/Balgio-ca/yottio-archiver
+            org.opencontainers.image.description=Archive personnelle de livres audio
             org.opencontainers.image.licenses=MIT

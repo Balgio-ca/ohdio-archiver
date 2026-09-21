@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Archiveur personnel OHdio (Radio-Canada), via l'API publique de yodio.ca.
+"""Archiveur personnel yottio : livres audio de Radio-Canada, via l'API publique de yodio.ca.
 
 Commandes :
   catalog   rafraîchit le catalogue et affiche le décompte par catégorie
@@ -32,7 +32,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 API = "https://yodio.ca/api"
-USER_AGENT = "ohdio-archiver/1.0 (archive personnelle)"
+USER_AGENT = "yottio-archiver/1.0 (archive personnelle)"
 ROOT = Path(__file__).resolve().parent
 MANIFEST = "manifest.json"
 AGE_RE = re.compile(r"^\d+-\d+ ans$")
@@ -232,7 +232,7 @@ def fetch_episodes(show_id: int) -> tuple[dict, list[dict]]:
 
 
 def archive_dir() -> Path:
-    p = Path(os.environ.get("OHDIO_ARCHIVE_DIR") or config.get("archive_dir", "Archive"))
+    p = Path(os.environ.get("YOTTIO_ARCHIVE_DIR") or config.get("archive_dir", "Archive"))
     return p if p.is_absolute() else ROOT / p
 
 
@@ -364,7 +364,7 @@ def write_abs_metadata(folder: Path, m: dict, description: str | None = None) ->
     (folder / "metadata.json").write_text(json.dumps({
         "title": m.get("title"), "subtitle": None, "authors": authors, "narrators": [], "series": [],
         "genres": [f"Jeunesse {cat}" if AGE_RE.match(cat) else cat],
-        "tags": ["OHdio", "Jeunesse"] if AGE_RE.match(cat) else ["OHdio"],
+        "tags": ["yottio", "Jeunesse"] if AGE_RE.match(cat) else ["yottio"],
         "publishedYear": m.get("year"), "publishedDate": None, "publisher": publisher,
         "description": description, "isbn": None, "asin": None, "language": "fr",
         "explicit": False, "abridged": False, "chapters": [],
@@ -409,7 +409,7 @@ def toml_value(v) -> str:
 def save_config() -> None:
     """Réécrit la config (appelé par l'interface web)."""
     ab = config.setdefault("audiobooks", {})
-    lines = ["# Configuration de l'archiveur OHdio (modifiable depuis l'interface web).",
+    lines = ["# Configuration de l'archiveur yottio (modifiable depuis l'interface web).",
              "# L'alias « jeunesse » regroupe les catégories 0-5, 6-8, 9-12 et 13-17 ans.", ""]
     for k in ("archive_dir", "delay", "every_hours"):
         if k in config:
@@ -516,8 +516,8 @@ def cmd_verify(args) -> None:
 
 
 def main() -> None:
-    p = argparse.ArgumentParser(description="Archiveur personnel OHdio")
-    p.add_argument("--config", default=os.environ.get("OHDIO_CONFIG") or str(ROOT / "config.toml"))
+    p = argparse.ArgumentParser(description="Archiveur personnel yottio")
+    p.add_argument("--config", default=os.environ.get("YOTTIO_CONFIG") or str(ROOT / "config.toml"))
     sub = p.add_subparsers(dest="cmd", required=True)
 
     def add_filters(sp):
@@ -532,26 +532,26 @@ def main() -> None:
     d.add_argument("--limit", type=int, help="traiter au plus N livres")
     d.add_argument("--ids", type=int, nargs="+", help="archiver seulement ces globalId")
     d.add_argument("--dry-run", action="store_true", help="afficher ce qui serait fait")
-    d.add_argument("--every", type=float, default=float(os.environ.get("OHDIO_EVERY_HOURS") or 0),
+    d.add_argument("--every", type=float, default=float(os.environ.get("YOTTIO_EVERY_HOURS") or 0),
                    help="relancer toutes les N heures (0 = une seule fois)")
     v = sub.add_parser("verify", help="vérifier l'archive")
     v.add_argument("--deep", action="store_true", help="recalculer SHA-256 et relire chaque fichier")
     w = sub.add_parser("serve", help="interface web + archivage automatique")
-    w.add_argument("--port", type=int, default=int(os.environ.get("OHDIO_PORT") or 8765))
+    w.add_argument("--port", type=int, default=int(os.environ.get("YOTTIO_PORT") or 8765))
 
     args = p.parse_args()
     load_config(Path(args.config))
     if args.cmd == "serve":
-        # web.py fait « import ohdio » : il doit recevoir ce module-ci (et sa config
+        # web.py fait « import yottio » : il doit recevoir ce module-ci (et sa config
         # chargée), pas une seconde copie vierge importée à côté de __main__.
-        sys.modules.setdefault("ohdio", sys.modules[__name__])
+        sys.modules.setdefault("yottio", sys.modules[__name__])
         import web
         return web.serve(args.port)
     run = {"catalog": cmd_catalog, "list": cmd_list, "download": cmd_download, "verify": cmd_verify}[args.cmd]
     if args.cmd != "download" or not args.every:
         return run(args)
     while True:
-        args.refresh = True  # nouveaux livres ajoutés à OHdio depuis le dernier passage
+        args.refresh = True  # nouveaux livres ajoutés au catalogue depuis le dernier passage
         run(args)
         nxt = datetime.now().astimezone().timestamp() + args.every * 3600
         log(f"\nProchain passage : {datetime.fromtimestamp(nxt).strftime('%Y-%m-%d %H:%M')}\n")

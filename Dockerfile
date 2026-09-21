@@ -5,16 +5,16 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-COPY ohdio.py web.py ui.html config.toml ./
+COPY yottio.py web.py ui.html config.toml ./
 
-ENV OHDIO_ARCHIVE_DIR=/archive \
-    OHDIO_CONFIG=/config/config.toml \
+ENV YOTTIO_ARCHIVE_DIR=/archive \
+    YOTTIO_CONFIG=/config/config.toml \
     PYTHONUNBUFFERED=1
 
 VOLUME ["/archive", "/config"]
 EXPOSE 8765
 
 # Au premier démarrage, copie la config par défaut dans /config si elle est absente.
-ENTRYPOINT ["sh", "-c", "[ -f \"$OHDIO_CONFIG\" ] || cp /app/config.toml \"$OHDIO_CONFIG\" 2>/dev/null || true; exec python3 /app/ohdio.py \"$@\"", "--"]
-# Interface web + archivage automatique. Pour un passage unique : `docker compose run --rm ohdio download`.
+ENTRYPOINT ["sh", "-c", "[ -f \"$YOTTIO_CONFIG\" ] || cp /app/config.toml \"$YOTTIO_CONFIG\" 2>/dev/null || true; exec python3 /app/yottio.py \"$@\"", "--"]
+# Interface web + archivage automatique. Pour un passage unique : `docker compose run --rm yottio download`.
 CMD ["serve"]
